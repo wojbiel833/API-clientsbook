@@ -6,7 +6,7 @@ const db = require("../db");
 
 const app = express();
 
-app.get("/testimonials", (req, res) => {
+router.route("/testimonials").get((req, res) => {
   res.json(db.testimonials);
 
   //   if (db.testimonials) {
@@ -14,26 +14,26 @@ app.get("/testimonials", (req, res) => {
   //   } else res.status(404).send({ message: "Not found..." });
 });
 
-app.get("/testimonials/:id", (req, res) => {
+router.route("/testimonials/:id").get((req, res) => {
   res.json(db.testimonials.find((el) => el.id == req.params.id));
 });
 
-app.get("/testimonials/random", (req, res) => {
+router.route("/testimonials/random").get((req, res) => {
   let id;
   res.json(
     db.testimonials[`${Math.floor(Math.random() * db.testimonials.length)}`]
   );
 });
 
-app.post("/testimonials", (req, res) => {
+router.route("/testimonials").post((req, res) => {
   db.testimonials.push({
-    id: uuidv4(),
     author: req.body.author,
     text: req.body.text,
+    id: uuidv4(),
   });
 });
 
-app.put("/testimonials/:id", (req, res) => {
+router.route("/testimonials/:id").put((req, res) => {
   const testimonial = db.testimonials.find((el) => el.id == req.param.id);
 
   if (!testimonial) {
@@ -45,7 +45,7 @@ app.put("/testimonials/:id", (req, res) => {
   }
 });
 
-app.delete("/testimonials/:id", (req, res) => {
+router.route("/testimonials/:id").delete((req, res) => {
   const index = db.testimonials.find((el) => {
     el.id == req.param.id;
   });
